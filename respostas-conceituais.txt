@@ -1,0 +1,40 @@
+ATIVIDADE INTEGRADORA — RESPOSTAS CONCEITUAIS
+Programação para Web · UNICEPLAC · 2026/2
+
+Q1 — Arquitetura em três camadas
+
+A camada de apresentação é a interface com a pessoa usuária: portal-bootstrap.html e estilo.css definem estrutura visual, layout e interação no navegador. A camada de aplicação recebe a requisição, valida dados e aplica regras de negócio: neste exercício, processar.jsp faz esse trabalho. Em uma aplicação maior, essa lógica normalmente ficaria em um Servlet ou serviço, enquanto a JSP renderizaria a interface. A camada de dados persiste e consulta os registros: seria o banco MySQL dos alunos cadastrados. O projeto entregue não inclui MySQL; o nome do último cadastro fica apenas na sessão, e as turmas estão em um array.
+
+Q2 — Servlet versus JSP
+
+Um Servlet é uma classe Java que recebe requisições HTTP e controla o fluxo: lê parâmetros, valida, chama serviços e escolhe a resposta. Uma JSP é uma página de apresentação que combina HTML com recursos de geração dinâmica; o servidor a transforma em um Servlet. Neste exercício, processar.jsp demonstra objetos implícitos e scriptlets, como solicitado. Em uma aplicação real, eu colocaria o processamento do formulário em um Servlet, as regras reutilizáveis em uma classe de serviço e a confirmação em uma JSP. Isso separa lógica e apresentação, facilita testes e evita Java extenso misturado ao HTML.
+
+Q3 — Ciclo de vida da requisição HTTP
+
+1. A pessoa preenche nome, e-mail e turma e clica em “Cadastrar”.
+2. O navegador verifica as restrições do formulário. Na versão Bootstrap, se os campos estiverem válidos, mostra um Toast de envio e envia um POST HTTP para processar.jsp com os parâmetros nome, email e turma.
+3. O Tomcat recebe a requisição e a encaminha ao recurso JSP. Na primeira execução, ele traduz e compila a JSP em um Servlet; nas seguintes, reutiliza a versão compilada enquanto ela estiver atual.
+4. O código do JSP usa request para ler os parâmetros, valida o método e os dados e, se tudo estiver correto, guarda o último nome em session.
+5. A JSP gera HTML com a confirmação ou a mensagem de erro. O Tomcat devolve uma resposta HTTP, e o navegador renderiza a página resultante.
+
+Q4 — Jakarta EE versus Java EE
+
+Três consequências práticas ao migrar de Java EE 8 para Jakarta EE 9 ou superior:
+
+1. Os pacotes das APIs da plataforma mudam de javax.* para jakarta.*. Por exemplo, javax.servlet.http.HttpServlet passa a jakarta.servlet.http.HttpServlet; o código precisa ser atualizado e recompilado.
+2. As dependências devem ser trocadas por versões compatíveis com Jakarta EE. Bibliotecas antigas compiladas contra javax.servlet.* podem falhar mesmo que o código da aplicação já tenha sido alterado.
+3. O servidor e as configurações precisam ser compatíveis com as novas APIs. Por exemplo, Tomcat 9 usa a geração Java EE/Servlet javax, enquanto Tomcat 10 ou posterior usa Jakarta; descritores, tag libraries e integrações que referenciam APIs antigas podem precisar de atualização ou migração.
+
+A mudança de nome começou na transferência da plataforma para a Eclipse Foundation. Jakarta EE 8 ainda manteve os pacotes javax.*; a troca para jakarta.* veio na versão 9.
+
+Q5 — Segurança e prevenção de XSS
+
+XSS ocorre quando dados fornecidos por uma pessoa são inseridos na página como código executável. Se o nome enviado fosse <script>alert(1)</script> e a JSP o imprimisse diretamente com <%= nome %>, o navegador poderia interpretar o script. A validação do navegador não resolve isso, pois uma requisição POST pode ser enviada diretamente ao servidor.
+
+Para imprimir o nome como texto entre tags HTML, codifico os caracteres especiais no momento da saída. O arquivo processar.jsp implementa o método escaparHtml, que substitui &, <, >, aspas duplas e aspas simples por entidades HTML, nessa ordem. A página usa <%= escaparHtml(nome) %>; também codifica o e-mail e o último nome mostrado em turmas.jsp. Assim, o exemplo acima aparece como texto e não executa. A técnica correta depende do contexto de saída: texto HTML, atributo, URL e JavaScript exigem codificações diferentes. Se a aplicação precisasse aceitar HTML digitado pelo usuário, seria necessário usar um sanitizador de HTML apropriado.
+
+Fontes técnicas consultadas:
+- Jakarta EE FAQ: https://jakarta.ee/about/faq/
+- Jakarta EE 9.1 Platform Specification, seção de migração: https://jakarta.ee/specifications/platform/9.1/jakarta-platform-spec-9.1
+- Apache Tomcat Migration Guide: https://tomcat.apache.org/migration-10
+- OWASP Cross Site Scripting Prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet/

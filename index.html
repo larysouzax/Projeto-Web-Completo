@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de turmas da atividade de Programação para Web da UNICEPLAC.">
+  <title>Portal de Turmas — UNICEPLAC</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>UNICEPLAC — Portal de Turmas</h1>
+      <p>Engenharia de Software · Programação para Web · 2026/2</p>
+    </div>
+  </header>
+
+  <nav aria-label="Navegação principal">
+    <ul>
+      <li><a href="#turmas">Turmas</a></li>
+      <li><a href="#cadastrar">Cadastrar Aluno</a></li>
+      <li><a href="#relatorio">Relatórios</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="turmas" aria-labelledby="titulo-turmas">
+      <h2 id="titulo-turmas">Turmas Disponíveis</h2>
+      <article>
+        <h3>Programação para Web</h3>
+        <p>Disciplina: ENSOF4AN1 · 4º Período · 60h</p>
+        <p>Prof. Reinaldo Vieira · Turma A</p>
+        <a href="turmas.jsp">Ver detalhes das turmas</a>
+      </article>
+      <article>
+        <h3>Banco de Dados</h3>
+        <p>Disciplina: ENSOF4BD1 · 4º Período · 80h</p>
+        <p>Prof. Carlos Souza · Turma A</p>
+        <a href="turmas.jsp">Ver detalhes das turmas</a>
+      </article>
+      <article>
+        <h3>Engenharia de Software</h3>
+        <p>Disciplina: ENSOF4ES1 · 4º Período · 80h</p>
+        <p>Prof. Ana Lima · Turma A</p>
+        <a href="turmas.jsp">Ver detalhes das turmas</a>
+      </article>
+    </section>
+
+    <aside aria-labelledby="titulo-professor">
+      <h2 id="titulo-professor">Professor Responsável</h2>
+      <p><strong>Nome:</strong> Prof. Reinaldo Vieira</p>
+      <p><strong>E-mail:</strong> <a href="mailto:reinaldo@uniceplac.edu.br">reinaldo@uniceplac.edu.br</a></p>
+      <p><strong>Horário:</strong> Seg/Qua 19h–22h</p>
+    </aside>
+
+    <section id="cadastrar" class="largura-total" aria-labelledby="titulo-cadastro">
+      <h2 id="titulo-cadastro">Cadastrar Aluno</h2>
+      <!-- O servidor valida novamente todos os campos em processar.jsp. -->
+      <form action="processar.jsp" method="post">
+        <fieldset>
+          <legend>Dados Pessoais</legend>
+          <label for="nome">Nome Completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" maxlength="120" required>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Ex: aluno@uniceplac.edu.br" maxlength="254" required>
+          <label for="turma">Turma</label>
+          <select id="turma" name="turma" required>
+            <option value="">Selecione...</option>
+            <option value="web">Programação para Web</option>
+            <option value="bd">Banco de Dados</option>
+            <option value="es">Engenharia de Software</option>
+          </select>
+          <button type="submit">Cadastrar</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section id="relatorio" class="largura-total" aria-labelledby="titulo-relatorio">
+      <h2 id="titulo-relatorio">Relatórios</h2>
+      <p>Consulte a relação de disciplinas, cargas horárias e professores.</p>
+      <a href="turmas.jsp">Abrir relação de turmas</a>
+    </section>
+  </main>
+
+  <footer id="contato">
+    <p>&copy; 2026 UNICEPLAC — Todos os direitos reservados</p>
+    <p>Desenvolvido na disciplina de Programação para Web</p>
+  </footer>
+</body>
+</html>
